@@ -1,0 +1,18 @@
+<breakfast> ::= <protein> "with" <breakfast> "on the side"  /* 1 */
+             | <protein>                                     /* 2 */
+             | <bread>                                       /* 3 */
+
+<protein>   ::= <crispiness> "crispy" "bacon"               /* 4 */
+             | "sausage"                                    /* 5 */
+             | <cooked> "eggs"                              /* 6 */
+
+<crispiness> ::= "really"                                   /* 7 */
+              | "really" <crispiness>                       /* 8 */
+
+<cooked>    ::= "scrambled"                                 /* 9 */
+             | "poached"                                    /* 10 */
+             | "fried"                                      /* 11 */
+
+<bread>     ::= "toast"                                     /* 12 */
+             | "biscuits"                                   /* 13 */
+             | "English muffin"                             /* 14 */
