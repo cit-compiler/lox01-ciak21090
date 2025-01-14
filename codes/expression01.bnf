@@ -1,0 +1,19 @@
+expression ::= literal
+            | unary
+            | binary
+            | grouping
+
+literal    ::= number
+            | string
+            | "true"
+            | "false"
+            | "nil"
+
+unary      ::= ( "!" | "-" ) expression
+
+binary     ::= expression operator expression
+
+operator   ::= "+" | "-" | "*" | "/"
+            | "==" | "!=" | "<" | "<=" | ">" | ">="
+
+grouping   ::= "(" expression ")"
