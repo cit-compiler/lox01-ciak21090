@@ -4,6 +4,12 @@ class AstPrinter implements Expr.Visitor<String> {
   String print(Expr expr) {
     return expr.accept(this);
   }
+
+  @Override
+  public String visitAssignExpr(Expr.Assign expr) {
+    return parenthesize2("=", expr.name.lexeme, expr.value);
+  }
+  
   @Override
   public String visitBinaryExpr(Expr.Binary expr) {
     return parenthesize(expr.operator.lexeme,
@@ -26,6 +32,11 @@ class AstPrinter implements Expr.Visitor<String> {
     return parenthesize(expr.operator.lexeme, expr.right);
   }
 
+  @Override
+  public String visitVariableExpr(Expr.Variable expr) {
+    return expr.name.lexeme;
+  }
+  
   private String parenthesize(String name, Expr... exprs) {
     StringBuilder builder = new StringBuilder();
 
@@ -39,6 +50,27 @@ class AstPrinter implements Expr.Visitor<String> {
     return builder.toString();
   }
 
+  private String parenthesize2(String name, Object... parts) {
+    StringBuilder builder = new StringBuilder();
+
+    builder.append("(").append(name);
+    transform(builder, parts);
+    builder.append(")");
+
+    return builder.toString();
+  }
+
+  private void transform(StringBuilder builder, Object[] parts) {
+    for (Object part : parts) {
+      builder.append(" ");
+      if (part instanceof Expr) {
+        builder.append(((Expr) part).accept(this));
+      } else {
+        builder.append(part.toString());
+      }
+    }
+  }
+
   public static void main(String[] args) {
     Expr expression = new Expr.Binary(
         new Expr.Unary(
@@ -50,4 +82,5 @@ class AstPrinter implements Expr.Visitor<String> {
 
     System.out.println(new AstPrinter().print(expression));
   }
+  
 }
